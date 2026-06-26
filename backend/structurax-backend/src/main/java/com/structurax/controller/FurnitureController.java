@@ -4,7 +4,7 @@ import com.structurax.dto.FurnitureRequest;
 import com.structurax.entity.Furniture;
 import com.structurax.service.FurnitureService;
 import org.springframework.web.bind.annotation.*;
-
+import com.structurax.design.validator.FurnitureCollisionValidator;
 import java.util.List;
 
 @RestController
@@ -12,9 +12,10 @@ import java.util.List;
 public class FurnitureController {
 
     private final FurnitureService furnitureService;
-
-    public FurnitureController(FurnitureService furnitureService) {
+    private final FurnitureCollisionValidator furnitureValidator;
+    public FurnitureController(FurnitureService furnitureService, FurnitureCollisionValidator furnitureValidator) {
         this.furnitureService = furnitureService;
+        this.furnitureValidator = furnitureValidator;
     }
 
     @PostMapping
