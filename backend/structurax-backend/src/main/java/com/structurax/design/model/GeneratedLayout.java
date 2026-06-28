@@ -1,55 +1,6 @@
-// package com.structurax.design.model;
-
-// import com.structurax.entity.*;
-
-// import java.util.ArrayList;
-// import java.util.List;
-
-// public class GeneratedLayout {
-
-//     private List<Room> rooms = new ArrayList<>();
-
-//     private List<Wall> walls = new ArrayList<>();
-
-//     private List<Door> doors = new ArrayList<>();
-
-//     private List<Window> windows = new ArrayList<>();
-
-//     public List<Room> getRooms() {
-//         return rooms;
-//     }
-
-//     public void setRooms(List<Room> rooms) {
-//         this.rooms = rooms;
-//     }
-
-//     public List<Wall> getWalls() {
-//         return walls;
-//     }
-
-//     public void setWalls(List<Wall> walls) {
-//         this.walls = walls;
-//     }
-
-//     public List<Door> getDoors() {
-//         return doors;
-//     }
-
-//     public void setDoors(List<Door> doors) {
-//         this.doors = doors;
-//     }
-
-//     public List<Window> getWindows() {
-//         return windows;
-//     }
-
-//     public void setWindows(List<Window> windows) {
-//         this.windows = windows;
-//     }
-// }
-
 package com.structurax.design.model;
 
+import com.structurax.design.ai.scoring.LayoutScore;
 import com.structurax.entity.Door;
 import com.structurax.entity.Room;
 import com.structurax.entity.Wall;
@@ -59,16 +10,60 @@ import java.util.List;
 
 public class GeneratedLayout {
 
+    /*
+     ---------------------------------------------
+     Generated Rooms
+     ---------------------------------------------
+     */
+
     private List<Room> rooms;
+
+    /*
+     ---------------------------------------------
+     Generated Walls
+     ---------------------------------------------
+     */
 
     private List<Wall> walls;
 
+    /*
+     ---------------------------------------------
+     Generated Doors
+     ---------------------------------------------
+     */
+
     private List<Door> doors;
+
+    /*
+     ---------------------------------------------
+     Generated Windows
+     ---------------------------------------------
+     */
 
     private List<Window> windows;
 
+    /*
+     ---------------------------------------------
+     AI Evaluation Score
+     ---------------------------------------------
+     */
+
+    private LayoutScore layoutScore;
+
+    /*
+     ---------------------------------------------
+     Constructors
+     ---------------------------------------------
+     */
+
     public GeneratedLayout() {
     }
+
+    /*
+     ---------------------------------------------
+     Rooms
+     ---------------------------------------------
+     */
 
     public List<Room> getRooms() {
         return rooms;
@@ -78,6 +73,12 @@ public class GeneratedLayout {
         this.rooms = rooms;
     }
 
+    /*
+     ---------------------------------------------
+     Walls
+     ---------------------------------------------
+     */
+
     public List<Wall> getWalls() {
         return walls;
     }
@@ -85,6 +86,12 @@ public class GeneratedLayout {
     public void setWalls(List<Wall> walls) {
         this.walls = walls;
     }
+
+    /*
+     ---------------------------------------------
+     Doors
+     ---------------------------------------------
+     */
 
     public List<Door> getDoors() {
         return doors;
@@ -94,6 +101,12 @@ public class GeneratedLayout {
         this.doors = doors;
     }
 
+    /*
+     ---------------------------------------------
+     Windows
+     ---------------------------------------------
+     */
+
     public List<Window> getWindows() {
         return windows;
     }
@@ -102,4 +115,19 @@ public class GeneratedLayout {
         this.windows = windows;
     }
 
+    /*
+     ---------------------------------------------
+     Layout Score
+     ---------------------------------------------
+     */
+
+    public LayoutScore getLayoutScore() {
+        return layoutScore;
+    }
+
+    public void setLayoutScore(LayoutScore layoutScore) {
+        this.layoutScore = layoutScore;
+    }
+
 }
+
