@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
-@Component
+@Component("aiMutationEngine")
 public class LayoutMutationEngine {
 
     private final Random random = new Random();

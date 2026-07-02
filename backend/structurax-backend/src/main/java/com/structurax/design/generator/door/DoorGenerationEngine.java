@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Component("generatorDoorGenerationEngine")
 public class DoorGenerationEngine {
 
     public List<Door> generateDoors(List<Room> rooms) {

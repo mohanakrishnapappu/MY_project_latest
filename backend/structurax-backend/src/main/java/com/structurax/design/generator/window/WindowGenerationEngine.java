@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Component("generatorWindowGenerationEngine")
 public class WindowGenerationEngine {
 
     public List<Window> generateWindows(List<Room> rooms) {

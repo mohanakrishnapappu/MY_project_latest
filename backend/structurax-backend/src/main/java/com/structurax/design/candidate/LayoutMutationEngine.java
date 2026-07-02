@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
-@Component
+@Component("candidateMutationEngine")
 public class LayoutMutationEngine {
 
     private final AIConstraintEngine constraintEngine;

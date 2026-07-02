@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Component("generatorWallGenerationEngine")
 public class WallGenerationEngine {
 
     public List<Wall> generateWalls(List<Room> rooms) {
