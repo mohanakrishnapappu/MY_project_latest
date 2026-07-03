@@ -28,7 +28,7 @@ public class LayoutGenerationServiceImpl implements LayoutGenerationService {
 
     /*
      * ------------------------------------------------
-     * Engines
+     * CORE ENGINES
      * ------------------------------------------------
      */
 
@@ -36,19 +36,41 @@ public class LayoutGenerationServiceImpl implements LayoutGenerationService {
     private final SpacePlanningEngine spacePlanningEngine;
     private final WallGenerationEngine wallGenerationEngine;
 
-    private final DoorGenerationEngine doorGenerationEngine; // legacy
-    private final DoorPlacementEngine doorPlacementEngine;   // AI (NEW)
+    /*
+     * ------------------------------------------------
+     * DOOR ENGINES
+     * ------------------------------------------------
+     */
+
+    // Legacy (keep for fallback)
+    private final DoorGenerationEngine doorGenerationEngine;
+
+    // AI-based (primary)
+    private final DoorPlacementEngine doorPlacementEngine;
+
+    /*
+     * ------------------------------------------------
+     * WINDOW ENGINE
+     * ------------------------------------------------
+     */
 
     private final WindowGenerationEngine windowGenerationEngine;
 
+    /*
+     * ------------------------------------------------
+     * VALIDATION + SCORING
+     * ------------------------------------------------
+     */
+
     private final LayoutConstraintValidator validator;
     private final LayoutScoringEngine scoringEngine;
+
     private final CandidateLayoutGenerator candidateGenerator;
     private final LayoutEvolutionEngine evolutionEngine;
 
     /*
      * ------------------------------------------------
-     * AI Graph & Circulation
+     * GRAPH + CIRCULATION
      * ------------------------------------------------
      */
 
@@ -58,7 +80,7 @@ public class LayoutGenerationServiceImpl implements LayoutGenerationService {
 
     /*
      * ------------------------------------------------
-     * Constructor
+     * CONSTRUCTOR
      * ------------------------------------------------
      */
 
@@ -114,56 +136,56 @@ public class LayoutGenerationServiceImpl implements LayoutGenerationService {
         GeneratedLayout layout = new GeneratedLayout();
 
         /*
-         * STEP 1 - ROOMS
+         * STEP 1: Generate Rooms
          */
         layout.setRooms(
                 roomGenerationEngine.generateRooms(request));
 
         /*
-         * STEP 2 - SPACE PLANNING
+         * STEP 2: Space Planning
          */
         spacePlanningEngine.arrangeRooms(
                 request,
                 layout.getRooms());
 
         /*
-         * STEP 3 - ROOM RELATIONSHIP GRAPH
+         * STEP 3: Relationship Graph
          */
         Map<Room, List<Room>> graph =
                 relationshipGraph.buildGraph(layout.getRooms());
 
         /*
-         * STEP 4 - CIRCULATION PATHS
+         * STEP 4: Circulation Paths
          */
         List<CirculationPath> paths =
                 circulationPathEngine.generatePaths(graph);
 
         /*
-         * STEP 5 - CORRIDORS
+         * STEP 5: Corridors
          */
         layout.setCorridors(
                 corridorGenerationEngine.generateCorridors(paths));
 
         /*
-         * STEP 6 - WALLS
+         * STEP 6: Walls
          */
         layout.setWalls(
                 wallGenerationEngine.generateWalls(layout.getRooms()));
 
         /*
-         * STEP 7 - DOORS (UPDATED AI VERSION)
+         * STEP 7: DOORS (AI ENGINE - ACTIVE)
          */
         layout.setDoors(
                 doorPlacementEngine.placeDoors(paths));
 
         /*
-         * STEP 8 - WINDOWS
+         * STEP 8: WINDOWS (current engine)
          */
         layout.setWindows(
                 windowGenerationEngine.generateWindows(layout.getRooms()));
 
         /*
-         * STEP 9 - VALIDATION
+         * STEP 9: VALIDATION
          */
         if (!validator.validate(layout)) {
             throw new IllegalStateException(
@@ -171,32 +193,32 @@ public class LayoutGenerationServiceImpl implements LayoutGenerationService {
         }
 
         /*
-         * STEP 10 - SCORING
+         * STEP 10: SCORING
          */
         layout.setLayoutScore(
                 scoringEngine.evaluate(layout));
 
         /*
-         * STEP 11 - CANDIDATES
+         * STEP 11: CANDIDATES
          */
         List<LayoutCandidate> candidates =
                 candidateGenerator.generateCandidates(layout, 20);
 
         /*
-         * STEP 12 - EVOLUTION
+         * STEP 12: EVOLUTION
          */
         LayoutCandidate bestCandidate =
                 evolutionEngine.evolve(candidates);
 
         /*
-         * STEP 13 - FINAL OUTPUT
+         * STEP 13: FINAL OUTPUT
          */
         return convertToGeneratedLayout(bestCandidate);
     }
 
     /*
      * ------------------------------------------------
-     * CONVERSION
+     * CONVERSION METHOD
      * ------------------------------------------------
      */
 
