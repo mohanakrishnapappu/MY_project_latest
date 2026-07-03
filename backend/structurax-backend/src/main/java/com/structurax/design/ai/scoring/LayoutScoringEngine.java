@@ -2,6 +2,9 @@ package com.structurax.design.ai.scoring;
 
 import com.structurax.design.ai.analysis.AreaUtilizationEngine;
 import com.structurax.design.ai.analysis.CirculationAnalysisEngine;
+import com.structurax.design.ai.analysis.PrivacyAnalysisEngine;
+import com.structurax.design.ai.analysis.SunlightAnalysisEngine;
+import com.structurax.design.ai.analysis.VentilationAnalysisEngine;
 import com.structurax.design.ai.engines.CirculationScoringEngine;
 import com.structurax.design.ai.engines.PrivacyScoringEngine;
 import com.structurax.design.ai.engines.SunlightScoringEngine;
@@ -14,14 +17,33 @@ import org.springframework.stereotype.Component;
 public class LayoutScoringEngine {
 
     private final AreaUtilizationEngine areaEngine;
+
+    /*
+     * REAL AI Analysis Engines
+     */
+    private final SunlightAnalysisEngine sunlightAnalysisEngine;
+    private final VentilationAnalysisEngine ventilationAnalysisEngine;
+    private final PrivacyAnalysisEngine privacyAnalysisEngine;
+
+    /*
+     * Existing placeholder scoring engines
+     * (Will be removed gradually as AI analysis engines replace them)
+     */
     private final SunlightScoringEngine sunlightEngine;
     private final VentilationScoringEngine ventilationEngine;
     private final PrivacyScoringEngine privacyEngine;
     private final CirculationScoringEngine circulationEngine;
+
+    /*
+     * Real circulation analysis
+     */
     private final CirculationAnalysisEngine circulationAnalysisEngine;
 
     public LayoutScoringEngine(
             AreaUtilizationEngine areaEngine,
+            SunlightAnalysisEngine sunlightAnalysisEngine,
+            VentilationAnalysisEngine ventilationAnalysisEngine,
+            PrivacyAnalysisEngine privacyAnalysisEngine,
             SunlightScoringEngine sunlightEngine,
             VentilationScoringEngine ventilationEngine,
             PrivacyScoringEngine privacyEngine,
@@ -29,6 +51,10 @@ public class LayoutScoringEngine {
             CirculationAnalysisEngine circulationAnalysisEngine) {
 
         this.areaEngine = areaEngine;
+        this.sunlightAnalysisEngine = sunlightAnalysisEngine;
+        this.ventilationAnalysisEngine = ventilationAnalysisEngine;
+        this.privacyAnalysisEngine = privacyAnalysisEngine;
+
         this.sunlightEngine = sunlightEngine;
         this.ventilationEngine = ventilationEngine;
         this.privacyEngine = privacyEngine;
@@ -45,29 +71,44 @@ public class LayoutScoringEngine {
 
         LayoutScore score = new LayoutScore();
 
+        /*
+         * REAL AI Sunlight Analysis
+         */
         score.setSunlightScore(
-                sunlightEngine.calculate(layout));
-
-        score.setVentilationScore(
-                ventilationEngine.calculate(layout));
-
-        score.setPrivacyScore(
-                privacyEngine.calculate(layout));
+                sunlightAnalysisEngine.calculateSunlightScore(
+                        layout.getRooms(),
+                        layout.getWindows()
+                ));
 
         /*
-         * REAL circulation AI (replaces placeholder engine)
+         * REAL AI Ventilation Analysis
+         */
+        score.setVentilationScore(
+                ventilationAnalysisEngine.calculateVentilationScore(
+                        layout.getRooms(),
+                        layout.getWindows()
+                ));
+
+        /*
+         * REAL AI Privacy Analysis
+         */
+        score.setPrivacyScore(
+                privacyAnalysisEngine.calculatePrivacyScore(
+                        layout.getRooms()
+                ));
+
+        /*
+         * REAL AI Circulation Analysis
          */
         score.setCirculationScore(
-                circulationAnalysisEngine
-                        .calculateCirculationScore(
-                                layout.getRooms()
-                        )
-        );
+                circulationAnalysisEngine.calculateCirculationScore(
+                        layout.getRooms()
+                ));
 
         /*
-         * Placeholder for now.
-         * Will be replaced with real AreaUtilizationEngine
-         * once ProjectRequestDTO is integrated.
+         * Placeholder area score.
+         * Will use AreaUtilizationEngine after the scoring API
+         * is refactored to include ProjectRequestDTO.
          */
         score.setAreaUtilizationScore(
                 calculateArea(layout));
@@ -97,6 +138,11 @@ public class LayoutScoringEngine {
                         ? 0
                         : Math.min(candidate.getWindows().size() * 8, 100));
 
+        /*
+         * Candidate scoring still uses placeholders.
+         * This will be migrated to the AI analysis engines
+         * in a future refactoring.
+         */
         score.setPrivacyScore(80);
 
         score.setCirculationScore(85);

@@ -1,6 +1,7 @@
 package com.structurax.design.model;
 
 import com.structurax.design.ai.scoring.LayoutScore;
+import com.structurax.entity.Corridor;
 import com.structurax.entity.Door;
 import com.structurax.entity.Room;
 import com.structurax.entity.Wall;
@@ -44,26 +45,24 @@ public class GeneratedLayout {
 
     /*
      ---------------------------------------------
+     Generated Corridors
+     ---------------------------------------------
+     */
+
+    private List<Corridor> corridors;
+
+    /*
+     ---------------------------------------------
      AI Evaluation Score
      ---------------------------------------------
      */
 
     private LayoutScore layoutScore;
 
-    /*
-     ---------------------------------------------
-     Constructors
-     ---------------------------------------------
-     */
-
     public GeneratedLayout() {
     }
 
-    /*
-     ---------------------------------------------
-     Rooms
-     ---------------------------------------------
-     */
+    // Rooms
 
     public List<Room> getRooms() {
         return rooms;
@@ -73,11 +72,7 @@ public class GeneratedLayout {
         this.rooms = rooms;
     }
 
-    /*
-     ---------------------------------------------
-     Walls
-     ---------------------------------------------
-     */
+    // Walls
 
     public List<Wall> getWalls() {
         return walls;
@@ -87,11 +82,7 @@ public class GeneratedLayout {
         this.walls = walls;
     }
 
-    /*
-     ---------------------------------------------
-     Doors
-     ---------------------------------------------
-     */
+    // Doors
 
     public List<Door> getDoors() {
         return doors;
@@ -101,11 +92,7 @@ public class GeneratedLayout {
         this.doors = doors;
     }
 
-    /*
-     ---------------------------------------------
-     Windows
-     ---------------------------------------------
-     */
+    // Windows
 
     public List<Window> getWindows() {
         return windows;
@@ -115,11 +102,17 @@ public class GeneratedLayout {
         this.windows = windows;
     }
 
-    /*
-     ---------------------------------------------
-     Layout Score
-     ---------------------------------------------
-     */
+    // Corridors
+
+    public List<Corridor> getCorridors() {
+        return corridors;
+    }
+
+    public void setCorridors(List<Corridor> corridors) {
+        this.corridors = corridors;
+    }
+
+    // Score
 
     public LayoutScore getLayoutScore() {
         return layoutScore;
@@ -130,4 +123,3 @@ public class GeneratedLayout {
     }
 
 }
-

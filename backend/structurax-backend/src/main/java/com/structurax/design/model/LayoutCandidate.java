@@ -1,6 +1,7 @@
 package com.structurax.design.model;
 
 import com.structurax.design.ai.scoring.LayoutScore;
+import com.structurax.entity.Corridor;
 import com.structurax.entity.Door;
 import com.structurax.entity.Room;
 import com.structurax.entity.Wall;
@@ -20,6 +21,8 @@ public class LayoutCandidate {
     private List<Door> doors = new ArrayList<>();
 
     private List<Window> windows = new ArrayList<>();
+
+    private List<Corridor> corridors = new ArrayList<>();
 
     private LayoutScore layoutScore;
 
@@ -66,6 +69,14 @@ public class LayoutCandidate {
         this.windows = windows;
     }
 
+    public List<Corridor> getCorridors() {
+        return corridors;
+    }
+
+    public void setCorridors(List<Corridor> corridors) {
+        this.corridors = corridors;
+    }
+
     public LayoutScore getLayoutScore() {
         return layoutScore;
     }
@@ -73,4 +84,5 @@ public class LayoutCandidate {
     public void setLayoutScore(LayoutScore layoutScore) {
         this.layoutScore = layoutScore;
     }
+
 }
